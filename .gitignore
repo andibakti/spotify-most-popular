@@ -1,2 +1,4 @@
 /data/*
 /filtered/*
+.vscode/*
+__pycache__/
