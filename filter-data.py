@@ -16,7 +16,8 @@ def filterdata():
             if s == "\\" :
                 seen = True
             elif seen == True and s == "n":
-                out.write('\n')
+                temp = ',' + filename[:-4]
+                out.write(temp + '\n')
                 seen = False
             elif seen == True:
                 out.write("\\" + s)
