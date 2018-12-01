@@ -1,28 +1,41 @@
 import os 
 import csv
+import utils
 
+data_dir = 'viral/data/'
+filtered_dir = 'viral/filtered/'
 
 def filterdata():
-    for filename in os.listdir('./data/'):
-        print(filename)
-        file = open('data/' + filename, 'r+')
-        out = open('filtered/' + filename, 'w+')
+    for filename in os.listdir(data_dir):
+        utils.currentFile(filename)
+        file = open(data_dir + filename, 'r+')
+        out = open(filtered_dir + filename, 'w+')
         line = file.readline()
+        seen = False
         for s in line :
-            if s == "^" :
+            if s == "\\" :
+                seen = True
+            elif seen == True and s == "n":
                 out.write('\n')
+                seen = False
+            elif seen == True:
+                out.write("\\" + s)
+                seen = False
             else:
                 out.write(s)
+
+
         file.close()
         out.close()
 
 def assembledata():
-    out = open('results.csv', 'w+')
-    for filename in os.listdir('./filtered/'):
-        print(filename)
-        file = open('filtered/' + filename, 'r+')
+    out = open('viral/results.csv', 'w+')
+    for filename in os.listdir(filtered_dir):
+        utils.currentFile(filename)
+        file = open(filtered_dir + filename, 'r+')
         for line in file:
-            out.write(line)
+            if str(line[0]).isdigit:
+                out.write(line)
         # with file as csvfile:
         #     reader = csv.reader(csvfile, delimiter=',')
         #     for i, line in enumerate(reader):
@@ -45,6 +58,6 @@ def filterfile(filename):
     file.close()
     out.close()
     
-#filterdata()
-#assembledata()
-filterfile('results.csv')
+filterdata()
+assembledata()
+#filterfile('results.csv')
